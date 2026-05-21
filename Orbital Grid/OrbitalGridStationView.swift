@@ -82,6 +82,7 @@ struct OrbitalGridStationView: View {
                     .position(x: originX + gridW/2, y: originY + gridH/2)
                 }
             }
+            .clipped() // never let the positioned grid paint over the status row / palette
             .background(OrbitalGridPalette.bgDim)
 
             modulePalette
@@ -95,7 +96,12 @@ struct OrbitalGridStationView: View {
         let maxH = containerSize.height - 16
         let candidateW = maxW / CGFloat(OrbitalGridGameStore.gridW)
         let candidateH = maxH / CGFloat(OrbitalGridGameStore.gridH)
-        return max(20, min(candidateW, candidateH))
+        // Use the inscribed square so the 12×12 grid always fits its slot. A fixed
+        // floor (e.g. max(20, …)) would force the grid taller than a short slot —
+        // its centered .position() then spills onto the status row and palette,
+        // overlapping the text (App Store Guideline 4 reject). max(1, …) only guards
+        // against a zero/negative slot; it never exceeds the available space.
+        return max(1, min(candidateW, candidateH))
     }
 
     private func handleTap(at pt: GridPoint) {
