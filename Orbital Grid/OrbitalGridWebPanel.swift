@@ -13,6 +13,9 @@ struct OrbitalGridWebPanel: UIViewRepresentable {
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.scrollView.bounces = true
         webView.allowsBackForwardNavigationGestures = true
+        webView.scrollView.contentInsetAdjustmentBehavior = .always
+        webView.isOpaque = true
+        webView.backgroundColor = .black
         if let url = URL(string: urlString) {
             webView.load(URLRequest(url: url))
         }

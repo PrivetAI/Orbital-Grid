@@ -64,7 +64,8 @@ struct OrbitalGridApp: App {
                 if let ready = orbitalGridLinkReady {
                     if ready {
                         OrbitalGridWebPanel(urlString: orbitalGridSourceLink)
-                            .edgesIgnoringSafeArea(.all)
+                            .edgesIgnoringSafeArea(.bottom)
+                            .background(Color.black.ignoresSafeArea())
                     } else {
                         OrbitalGridRootView()
                             .environmentObject(game)
